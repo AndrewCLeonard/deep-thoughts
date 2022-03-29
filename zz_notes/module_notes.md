@@ -174,16 +174,63 @@ explanation of graphQL playground
 
 ### 21.1.5: Create the Thought Type Definition and Resolver
 
+#### Write the Resolver to Get Thoughts
+
 #### Look Up Thoughts by Username
 
+```
+type Query {
+  thoughts(username: String): [Thought]
+}
+```
+
+`thoughts` query _could_ receive a parameter if we want now.
+
+update `resolvers.js` to accept this parameter:
+
+```
+thoughts: async (parent, { username }) => {
+  const params = username ? { username } : {};
+  return Thought.find(params).sort({ createdAt: -1 });
+},
+```
+
+#### Create and Integrate the Reaction Type
+
+`reactions` is a nested array of the `Reaction` type = need to be explicit about what data we want returned.
 
 ### 21.1.6: Build the Remaining Query Type Definitions and Resolvers
+
+-   "!" means data _must_ exist, otherwise returns an error
+
+```
+type Query {
+  users: [User]
+  user(username: String!): User
+  thoughts(username: String): [Thought]
+  thought(_id: ID!): Thought
+}
+```
+
+#### Create the Remaining Query Resolvers
+
+#### Use Query Variables
 
 ### 21.1.7: Reflection
 
 ## Lesson 2: GraphQL Mutations
 
 ### 21.2.1: Introduction
+
+skills:
+
+-   Writing GraphQL type definitions and resolvers.
+-   Creating and reading session-like data.
+
+do the following:
+
+-   Perform create and update operations with GraphQL mutations.
+-   Implement JSON Web Tokens for authentication.
 
 ### 21.2.2: Preview
 
