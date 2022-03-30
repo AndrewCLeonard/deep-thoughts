@@ -236,9 +236,42 @@ do the following:
 
 ### 21.2.3: Create Add User and Login Mutations
 
+```
+type Mutation {
+    login(email: String!, password: String!): User
+    addUser(username: String!, email: String!, password: String!): User
+```
+
+When using variables in a GraphQL query, use `$`.
+
+```
+mutation addUser($username: String!, $password: String!, $email: String!) {
+  addUser(username: $username, password: $password, email: $email) {
+    _id
+    username
+    email
+  }
+}
+```
+
 ### 21.2.4: Authorize Users with JWTs
 
+**JSON Web Token** = **JWT** = a JSON object that's been encoded into a tokenized string
+
+-   Contain all the data you need encoded into a single string.
+-   Eliminate the need to save a session ID on the back end or in the database.
+-   Decrease the amount of server-side resources needed to maintain authentication.
+-   Can be generated anywhere and aren't tied to a single domain like cookies.
+
 ### 21.2.5: Implement Auth Middleware to Populate Me Query
+
+You can include the token with a request in the following ways:
+
+-   As part of the body
+-   In the query string (e.g., ?token=abc)
+-   As an HTTP header
+
+An HTTP header is best practice.
 
 ### 21.2.6: Add Mutations for Thoughts, Friends, and Reactions
 
