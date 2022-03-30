@@ -49,7 +49,7 @@ const resolvers = {
 			}
 
 			const token = signToken(user);
-			return user;
+			return { token, user };
 		},
 	},
 };
