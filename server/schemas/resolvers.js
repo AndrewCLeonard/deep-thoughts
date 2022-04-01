@@ -1,9 +1,22 @@
-const { User, Thought } = require("../models");
 const { AuthenticationError } = require("apollo-server-express");
+const { User, Thought } = require("../models");
 const { signToken } = require("../utils/auth");
 
 const resolvers = {
 	Query: {
+		// JWT
+		me: async (parent, args, context) => {
+			if (context.user) {
+				const userData = await User.findOne({ _id: context.user._id })
+					.select("-__v -password")
+					.populate("thoughts")
+					.populate("friends");
+
+				return userData;
+			}
+
+			throw new AuthenticationError("Not logged in");
+		},
 		// get all users
 		users: async () => {
 			return User.find() //
@@ -13,8 +26,8 @@ const resolvers = {
 		},
 		// get a user by username
 		user: async (parent, { username }) => {
-			return User.findOne({ username }) //
-				.select("-__v -password")
+			return User.findOne({ username })
+				.select("-__v -password") //
 				.populate("friends")
 				.populate("thoughts");
 		},
@@ -49,7 +62,7 @@ const resolvers = {
 			}
 
 			const token = signToken(user);
-			return user;
+			return { token, user };
 		},
 	},
 };

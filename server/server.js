@@ -1,6 +1,8 @@
 const express = require("express");
 // import ApolloServer
 const { ApolloServer } = require("apollo-server-express");
+// auth middleware to populate me query
+const { authMiddleware } = require("./utils/auth");
 
 // import our typeDefs and resolvers
 const { typeDefs, resolvers } = require("./schemas");
@@ -14,8 +16,8 @@ const startServer = async () => {
 	const server = new ApolloServer({
 		typeDefs,
 		resolvers,
-		// ??? WHY DOES THIS NEED OT BE COMMENTED OUT?
-		// context: authMiddleware,
+		// use context method to return req headers to resolvers
+		context: authMiddleware
 	});
 
 	// Start the Apollo server

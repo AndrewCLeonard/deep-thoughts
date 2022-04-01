@@ -265,6 +265,8 @@ mutation addUser($username: String!, $password: String!, $email: String!) {
 
 ### 21.2.5: Implement Auth Middleware to Populate Me Query
 
+If client saves JWT (e.g. `localStorage`), then token can be included with certain requests for back end to validate. E.g., front ent may call GraphQL query `me` and expect the logged-in user's full details as response.
+
 You can include the token with a request in the following ways:
 
 -   As part of the body
